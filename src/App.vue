@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    开始
+  
    
-  <router-link to="/login">去登录</router-link>
+  <router-link to="/login"></router-link>
   <router-view></router-view>
   </div>
 </template>
@@ -15,4 +15,6 @@ export default {
 </script>
 
 <style lang="less">
+
+@import url('http://at.alicdn.com/t/font_1426139_h6vn3jbl5q.css');
 </style>

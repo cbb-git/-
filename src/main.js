@@ -5,6 +5,7 @@ import '@/style/styles/reset.less'
 
 Vue.config.productionTip = false
 
+
 // 引入
 import router from './router/index.js'
 
