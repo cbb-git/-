@@ -1,20 +1,18 @@
 <template>
   <div id="app">
+    开始
    
+  <router-link to="/login">去登录</router-link>
+  <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+  components: {},
+};
 </script>
 
 <style lang="less">
-
 </style>
