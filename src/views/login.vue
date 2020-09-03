@@ -8,8 +8,8 @@
         <span class="iconfont iconnew"></span>
       </div>
       <div class="inputs">
-       <myinp type="text" placeholder="请输入用户名"  v-model="user.name"></myinp>
-       <myinp type="password" placeholder="请输入密码" v-model="user.pass"></myinp>
+       <myinp type="text" placeholder="请输入用户名"  v-model="user.username"></myinp>
+       <myinp type="password" placeholder="请输入密码" v-model="user.password"></myinp>
       </div>
       <p class="tips">
         没有账号？
@@ -25,7 +25,11 @@
 // 引入按钮
 import mybut from '../components/mybutton'
 import myinp from '../components/myinput'
-
+// 引入axios 封装文件
+import myaxios from '../utils/myaxios'
+// 引入 vant
+import { Toast  } from 'vant';
+import 'vant/lib/index.css';
 export default {
   // 注册
   components: {
@@ -34,14 +38,26 @@ export default {
  data () {
     return {
      user:{
-       name:'',
-       pass:'',
+       username:'',
+       password:'',
      }
     }
   },
   methods: {
     login(e){
     console.log(this.user.name,this.user.pass);
+                  // 因为user本身就是对象 
+     myaxios.post('/login',this.user)
+     .then ((res)=>{
+      if(res.data.statusCode == 401){
+        Toast.success('登录失败·');
+      }else{
+        Toast.success('登录成功');
+      }
+     })
+     .catch((err)=>{
+        
+     })
     },
     
   }

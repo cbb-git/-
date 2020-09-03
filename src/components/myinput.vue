@@ -1,6 +1,8 @@
 <template>
   
                              <!-- type不能写死 -->
+                             <!-- 文本框默認有一个value属性 因为input是根元素 所以默认给根元素赋值 -->
+                             <!-- 如果不是跟元素 设置变量赋值就行 -->
       <input class="hminput" :type="type" @input="handlerinput" >
   
 </template>
