@@ -41,7 +41,7 @@ import myinp from "@/components/myinput";
 // 引入axios 封装文件
 // import myaxios from "@/utils/myaxios";
 // 引入方法login
-import {login} from '@/apis/users.js';
+import {fnlogin} from '@/apis/users.js';
 
 // 引入 vant
 // import { Toast } from "vant";
@@ -61,16 +61,21 @@ export default {
       },
     };
   },
+
   methods: {
     // 得标记是async
    async login() {
 //  await 可以上异步操作先执行完 在执行后续的代码
-      let result = await login(this.user)
+      let result = await fnlogin(this.user)
        console.log(result); 
     if(result.data.statusCode == '401'){
       this.$toast.fail('登录失败') 
     }else{
       this.$toast.success('登陆成功')
+      // 先存储token值
+       localStorage.setItem('heima_toutiao',result.data.data.token);
+      // 登录成功跳到个人中心页面
+      this.$router.push({path:'/personal/'+result.data.data.user.id})
     }
   },
     
