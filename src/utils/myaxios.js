@@ -1,4 +1,4 @@
-import Vue from 'vue'
+
 import axios from 'axios'
 
 // 暴露                  create 每次都会创建新的实例

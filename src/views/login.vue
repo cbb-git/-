@@ -36,10 +36,13 @@
 
 <script>
 // 引入按钮
-import mybut from "../components/mybutton";
-import myinp from "../components/myinput";
+import mybut from "@/components/mybutton";
+import myinp from "@/components/myinput";
 // 引入axios 封装文件
-import myaxios from "../utils/myaxios";
+// import myaxios from "@/utils/myaxios";
+// 引入方法login
+import {login} from '@/apis/users.js';
+
 // 引入 vant
 // import { Toast } from "vant";
 // 可以不用引入
@@ -59,21 +62,19 @@ export default {
     };
   },
   methods: {
-    login(e) {
-      console.log(this.user.name, this.user.pass);
-      // 因为user本身就是对象
-      myaxios
-        .post("/login", this.user)
-        .then((res) => {
-          if (res.data.statusCode == 401) {
-            this.$toast("登录失败")
-          } else {
-           this.$toast("登录成功")
-          }
-        })
-        .catch((err) => {});
-    },
+    // 得标记是async
+   async login() {
+//  await 可以上异步操作先执行完 在执行后续的代码
+      let result = await login(this.user)
+       console.log(result); 
+    if(result.data.statusCode == '401'){
+      this.$toast.fail('登录失败') 
+    }else{
+      this.$toast.success('登陆成功')
+    }
   },
+    
+  }
 };
 </script>
 
