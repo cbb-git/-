@@ -8,8 +8,21 @@
         <span class="iconfont iconnew"></span>
       </div>
       <div class="inputs">
-       <myinp type="text" placeholder="请输入用户名"  v-model="user.username"></myinp>
-       <myinp type="password" placeholder="请输入密码" v-model="user.password"></myinp>
+        <!-- 我们需要加入正则验证 -->
+        <myinp type="text" placeholder="请输入用户名"
+         v-model="user.username"
+         :rules='/^1[35789]\d{9}$|^1\d{4,5}$/'
+         msgno='手机号输入不合法'
+         msgyes='手机号输入合法'
+         ></myinp>
+
+        <myinp type="password" 
+        placeholder="请输入密码" 
+        v-model="user.password"
+         :rules='/^\w{3,4}$/'
+         msgno='密码输入不合法'
+         msgyes='密码输入合法'
+        ></myinp>
       </div>
       <p class="tips">
         没有账号？
@@ -19,48 +32,48 @@
       <mybut @click="login">登录</mybut>
     </div>
   </div>
-</template>
+</template> 
 
 <script>
 // 引入按钮
-import mybut from '../components/mybutton'
-import myinp from '../components/myinput'
+import mybut from "../components/mybutton";
+import myinp from "../components/myinput";
 // 引入axios 封装文件
-import myaxios from '../utils/myaxios'
+import myaxios from "../utils/myaxios";
 // 引入 vant
-import { Toast  } from 'vant';
-import 'vant/lib/index.css';
+// import { Toast } from "vant";
+// 可以不用引入
+// import 'vant/lib/index.css';
 export default {
   // 注册
   components: {
-    mybut,myinp
+    mybut,
+    myinp,
   },
- data () {
+  data() {
     return {
-     user:{
-       username:'',
-       password:'',
-     }
-    }
+      user: {
+        username: "",
+        password: "",
+      },
+    };
   },
   methods: {
-    login(e){
-    console.log(this.user.name,this.user.pass);
-                  // 因为user本身就是对象 
-     myaxios.post('/login',this.user)
-     .then ((res)=>{
-      if(res.data.statusCode == 401){
-        Toast.success('登录失败·');
-      }else{
-        Toast.success('登录成功');
-      }
-     })
-     .catch((err)=>{
-        
-     })
+    login(e) {
+      console.log(this.user.name, this.user.pass);
+      // 因为user本身就是对象
+      myaxios
+        .post("/login", this.user)
+        .then((res) => {
+          if (res.data.statusCode == 401) {
+            this.$toast("登录失败")
+          } else {
+           this.$toast("登录成功")
+          }
+        })
+        .catch((err) => {});
     },
-    
-  }
+  },
 };
 </script>
 
@@ -87,7 +100,6 @@ export default {
 }
 
 .inputs {
-
   .inputs-1 {
     color: blue;
   }

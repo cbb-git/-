@@ -5,9 +5,12 @@ import '@/style/styles/reset.less'
 
 Vue.config.productionTip = false
 
-
 // 引入
 import router from './router/index.js'
+
+// 我们在全局中引入 vant
+import { Toast } from "vant"
+Vue.use(Toast)
 
 new Vue({
   // 注入
