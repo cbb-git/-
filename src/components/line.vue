@@ -1,22 +1,29 @@
 <template>
-  <div id="cell">
-      <div class="left">{{texts}}</div>
-      <div class="right">{{type == 'pass' ? '******':del}}</div>
+  <div id="cell" @click="handlerclick">
+    <div class="left">{{texts}}</div>
+    <div class="right">{{type == 'pass' ? '******':del}}</div>
   </div>
 </template>
 
 <script>
 export default {
-props:{
-  texts:String,
-  del:String,
-  type:String
-}
-}
+  methods: {
+    handlerclick(e) {
+      this.$emit("click", e);
+    },
+
+    
+  },
+  props: {
+      texts: String,
+      del: String,
+      type: String,
+    },
+};
 </script>
 
 <style lang='less'>
-#cell{
+#cell {
   display: flex;
   justify-content: space-between;
   height: 50px;

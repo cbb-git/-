@@ -9,11 +9,15 @@ Vue.config.productionTip = false
 import router from './router/index.js'
 
 // 我们在全局中引入 vant
-import { Toast } from "vant"
-import { Uploader } from 'vant';
+import {Toast, Uploader,Dialog,Field,Notify,Picker,Popup   } from "vant"
+
 Vue.use(Toast)
   .use(Uploader)
-
+  .use(Dialog)
+  .use(Field)
+  .use(Notify)
+  .use(Picker)
+  .use(Popup )
 new Vue({
   // 注入
   router,
