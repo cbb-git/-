@@ -7,6 +7,7 @@ Vue.use(VueRouter)
 // 组件
 import Login from '@/views/login'
 import Personal from '@/views/personal/index.vue'
+import EditPersonal from '@/views/personal/editpersonal.vue'
 
 
 
@@ -22,6 +23,12 @@ let router = new VueRouter({
             name: 'personal',
             path: '/personal/:id',
             component: Personal,
+        },
+        // 個人信息编辑
+        {
+            name: 'editpersonal',
+            path: '/editpersonal/:id',
+            component: EditPersonal, 
         }
     ]
 

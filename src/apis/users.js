@@ -22,3 +22,14 @@ export const personal = function (id) {
     // headers: { Authorization: localStorage.getItem('heima_toutiao') }
   })
 }
+
+// 用户个人详情保存到数据库
+export const personalAfterread = (id, data) => {
+  return axios({
+    method: 'post',
+    url: `/user_update/${id}`,
+    data
+
+  })
+
+}

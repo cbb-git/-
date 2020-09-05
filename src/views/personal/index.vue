@@ -1,23 +1,24 @@
 <template>
   <div class="personal">
-    <router-link to="/edit_profile">
+    <router-link :to="/editpersonal/ + this.id">
       <div class="profile">
         <!-- 從数据库获得的动态的值 -->
-        <img :src='defaults + imgurl' alt />
+        <img :src="defaults + imgurl" alt />
         <div class="profile-center">
           <div class="name">
-            <span class="iconfont iconxingbienan"></span>{{name}}
+            <span class="iconfont iconxingbienan"></span>
+            {{name}}
           </div>
           <div class="time">2019-9-24</div>
         </div>
         <span class="iconfont iconjiantou1"></span>
       </div>
     </router-link>
-    <myline texts='我的关注' del='关注的用户'></myline>
-    <myline texts='我的跟帖' del='跟帖/回复'></myline>
-    <myline texts='我的收藏' del='文章/视频'></myline>
-    <myline texts='设置'  ></myline>
-     <mybutton class="btn" >退出</mybutton>
+    <myline texts="我的关注" del="关注的用户"></myline>
+    <myline texts="我的跟帖" del="跟帖/回复"></myline>
+    <myline texts="我的收藏" del="文章/视频"></myline>
+    <myline texts="设置"></myline>
+    <mybutton class="btn">退出</mybutton>
   </div>
 </template>
 
@@ -27,41 +28,41 @@ import myline from "@/components/line.vue";
 import mybutton from "@/components/mybutton.vue";
 
 // 引入我们封装的axios
-import { personal } from '@/apis/users.js';
+import { personal } from "@/apis/users.js";
 
-import myaxios from '@/utils/myaxios.js';
+import myaxios from "@/utils/myaxios.js";
+
 export default {
-  data () {
+  data() {
     return {
-      name:'',
-      imgurl:'',
-      defaults:''
-    }
+      name: "",
+      imgurl: "",
+      defaults: "",
+      id:''
+    };
   },
   // 組件的引用一定要注册
   components: {
-    myline,mybutton
+    myline,
+    mybutton,
   },
   // 钩子函数取到我们的id
-  async mounted () {
+  async mounted() {
     console.log(this.$route);
-    let id = this.$route.params.id
+    let id = this.$route.params.id;
     console.log(id);
 
-    let res = await personal(id)
+    let res = await personal(id);
     console.log(res);
 
-    if(res.data.message == '获取成功'){
-
-     this.name = res.data.data.nickname
-     this.imgurl = res.data.data.head_img
-     console.dir(myaxios);
-     this.defaults = myaxios.defaults.baseURL
-
+    if (res.data.message == "获取成功") {
+      this.name = res.data.data.nickname;
+      this.id = res.data.data.id;
+      this.imgurl = res.data.data.head_img;
+      console.dir(myaxios);
+      this.defaults = myaxios.defaults.baseURL;
     }
-  
-  }
-
+  },
 };
 </script>
 
@@ -105,7 +106,7 @@ a {
   }
 }
 .btn {
-    margin: 0 auto;
-    margin-top: 20px;
+  margin: 0 auto;
+  margin-top: 20px;
 }
 </style>

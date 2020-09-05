@@ -112,6 +112,7 @@ export default {
 }
 
 .tips {
+  margin-top: 20px;
   text-align: right;
   margin-bottom: 20px;
 

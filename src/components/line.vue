@@ -1,15 +1,16 @@
 <template>
   <div id="cell">
       <div class="left">{{texts}}</div>
-      <div class="right">{{del}}</div>
+      <div class="right">{{type == 'pass' ? '******':del}}</div>
   </div>
 </template>
 
 <script>
 export default {
 props:{
-  texts:'',
-  del:'',
+  texts:String,
+  del:String,
+  type:String
 }
 }
 </script>

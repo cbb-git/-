@@ -10,7 +10,9 @@ import router from './router/index.js'
 
 // 我们在全局中引入 vant
 import { Toast } from "vant"
+import { Uploader } from 'vant';
 Vue.use(Toast)
+  .use(Uploader)
 
 new Vue({
   // 注入
