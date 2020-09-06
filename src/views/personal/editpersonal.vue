@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <myedit title="编辑个人信息">
-      <span slot="left" class="iconfont iconjiantou2"></span>
+      <span slot="left" class="iconfont iconjiantou2" @click="retreat"></span>
       <!-- <span slot="right"></span> -->
     </myedit>
     <div class="userimg">
@@ -21,18 +21,24 @@
 
     <lines class="line" texts="密码" del type="pass" @click="nickcilckpass=true"></lines>
 
-    <van-dialog v-model="nickcilckpass" title="修改密碼" show-cancel-button>
+    <van-dialog v-model="nickcilckpass" title="修改密碼" show-cancel-button @confirm="alterpass">
       <!-- <img src="https://img.yzcdn.cn/vant/apple-3.jpg" /> -->
       <!-- 这里不能使用双向绑定 不能修改默认值 -->
 
       <!-- 用户需要自己输入原密码 -->
-      <van-field @input="pass" :value="verifypass" required label="旧密碼" placeholder="请输入密码" />
+      <van-field @input="pass" v-model="verifypass" required label="旧密碼" placeholder="请输入密码" />
       <van-field @input="newpass" required label="新密码" placeholder="请输入密码" />
     </van-dialog>
 
     <lines class="line" texts="性别" :del="gender" @click="altergender=true"></lines>
     <van-popup v-model="altergender" :style="{ height: '50%', width:'100%'}">
-      <van-picker title="性别" :columns="columns" show-toolbar @confirm="onConfirm"   @cancel="onCancel"/>
+      <van-picker
+        title="性别"
+        :columns="columns"
+        show-toolbar
+        @confirm="onConfirm"
+        @cancel="onCancel"
+      />
     </van-popup>
   </div>
 </template>
@@ -70,6 +76,8 @@ export default {
       verifypass: "",
       columns: ["男", "女"],
       pickervalue: "",
+      // 用户的新密码
+      newpassword:'',
     };
   },
   methods: {
@@ -86,15 +94,18 @@ export default {
       console.log(res);
       if (res.data.message == "文件上传成功") {
         console.log(res);
+        // 将图片预览
         this.img = myaxios.defaults.baseURL + res.data.data.url;
+          //  传送到服务器
         let resute = await personalAfterread(this.id, {
           head_img: res.data.data.url,
-        });
+        }); 
         this.$toast.success("上传成功");
         console.log(resute);
       } else {
         this.$toast.fail("上传失败");
       }
+      
     },
     // 弹出框内容赋值给name
     content(data) {
@@ -102,8 +113,19 @@ export default {
       this.alter = data;
     },
     // 弹出框赋值
-    altername() {
+    async altername() {
       this.name = this.alter;
+
+     let resutename = await personalAfterread(this.id,{
+       nickname:this.name
+     })
+       if(resutename.data.data.message = '修改成功'){
+           this.$toast.success("修改成功");
+       }else{
+          this.$toast.fail("修改失败");
+       }
+      
+     console.log(resutename);
     },
     //    密码框
     pass(data) {
@@ -116,33 +138,68 @@ export default {
         });
         // 让文本框记住
         this.verifypass = data;
+
+       
       } else {
         this.$notify("密码错误");
       }
     },
-    newpass(data) {
+   async newpass(data) {
       console.log(data);
       if (/^\w{3,16}$/.test(data)) {
         this.$notify({
           background: "green",
           message: "密码可以使用",
-        });
+        })
+         this.newpassword = data;
       } else {
         this.$notify("密码格式错误");
       }
+      
     },
+    async alterpass(){
+            // 修改服务器
+         let resutepass = await personalAfterread(this.id,{
+          password:this.newpassword
+          })
+           console.log(resutepass);
+          if(resutepass.data.data.message = '修改成功'){
+              this.$toast.success("修改成功");
+              this.verifypass = '';
+          }else{
+          this.$toast.fail("修改失败");
+           };
+
+       },
+    
     newgender(data) {
       console.log(data);
+      
     },
-    onConfirm(value) {
+   async onConfirm(value) {
         // 改变值
       this.gender = value
-    //   最后在关闭
+   
+        let resutegender = await personalAfterread(this.id,{
+          gender:this.gender
+          })
+           console.log(resutegender);
+          if(resutegender.data.data.message = '修改成功'){
+              this.$toast.success("修改成功");
+          }else{
+          this.$toast.fail("修改失败");
+           };
+            //   最后在关闭
      this.altergender = false;
+
     },
     onCancel(){
         this.altergender = false;
-    }
+    },
+    // 路由后退
+      retreat(){
+        this.$router.go(-1)
+      }
   },
 
   //  钩子
